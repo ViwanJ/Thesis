@@ -268,7 +268,7 @@ t_step = 0
 if int(args.e) == -1 and int(args.b) == 0 :
 	args.e = len(u.trajectory)
 elif int (args.e) > u.trajectory[-1].frame :
-	print "The last frame defined by user is longer than trajectory frame, the last frame will be last trajectory frame"
+	print "\n\n Warning!! The last frame defined by user is longer than trajectory frame, the last frame will be last trajectory frame \n\n"
 	args.e = u.trajectory[-1].frame + 1
 else :
 	args.e = int(args.e) + 1
