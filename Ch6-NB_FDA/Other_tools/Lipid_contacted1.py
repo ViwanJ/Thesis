@@ -6,7 +6,7 @@ import numpy as np
 import timeit, argparse
 start = timeit.default_timer()
 
-#          Set up parameters and locate all input files       #
+#         Set up parameters and locate all input files       #
 
 parser = argparse.ArgumentParser(description='FDA--Protein-Lpid interaction use as : python Lipid_contacted1.py -f trj.gro -x trj.xtc -v ', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 ### required parameters
@@ -67,7 +67,7 @@ for ts in u.trajectory[int(args.b):args.e] :
 	Contact_t.append(num_lip_around)
 
 Contact_t = np.array(Contact_t)
-Contact_av = np.linalg.norm(Contact_t, axis = 0)
+Contact_av = np.average(Contact_t, axis = 0)
 np.savetxt("./Lipid_contact_VJ/Lipid_contact.csv", Contact_t)
 
 for i in Protein.residues.resids :

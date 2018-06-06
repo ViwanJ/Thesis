@@ -46,7 +46,8 @@ parser.add_argument('-non_prot', help='list of non protein in the gro file, excl
 parser.add_argument("-v", "--verbose", action="store_true", help="increase output verbosity")
 
 args = parser.parse_args()
-print args
+print "\n\n\n"
+print args, "\n\n"
 
 gro = args.gro
 xtc = args.xtc
@@ -265,7 +266,7 @@ print "time to setup " + str(check1 - start )
 ### set time step parameter
 t_step = 0
 ### strat loop
-if int(args.e) == -1 and int(args.b) == 0 :
+if int(args.e) == -1 :
 	args.e = len(u.trajectory)
 elif int (args.e) > u.trajectory[-1].frame :
 	print "\n\n Warning!! The last frame defined by user is longer than trajectory frame, the last frame will be last trajectory frame \n\n"
@@ -360,7 +361,7 @@ for ts in u.trajectory[int(args.b):args.e] :
 ##                  Stat over time                  ##
 ######################################################
 Fri_t = np.array(Fri_t)
-Fri_av = np.linalg.norm(Fri_t, axis = 0)
+Fri_av = np.average(Fri_t, axis = 0)
 Fri_std = np.std(Fri_t, axis = 0)
 
 PF_all = pd.concat(PF_t, ignore_index= True)
