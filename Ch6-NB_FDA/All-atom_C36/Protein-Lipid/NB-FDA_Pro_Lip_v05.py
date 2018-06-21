@@ -24,7 +24,7 @@ start = timeit.default_timer()
 ###############################################################
 ### Read coordinate from gro file, atom typr and charge from itp file, sigma and epsilon from charmm36
 
-parser = argparse.ArgumentParser(description='FDA--Protein-Lpid interaction use as : python FDAed5_Protein_Lipid.py -f trj.gro -x trj.xtc -ff ff_charmm.itp -pt TREK2_charmm.itp -lt POPC_charmm36.itp -lm ./POPC.C36.map.json -v', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
+parser = argparse.ArgumentParser(description='FDA--Protein-Lpid interaction use as : ipython -i ~/FDA/C36_Pro-Lip-ed5-May18/FDAed5_Protein_Lipid.py -- -f Pro_lip.gro -x Pro_lip.xtc -ff ~/FDA/Topology/ff_charmm36m.itp -pt ~/FDA/Topology/TREK1WT_charmm36m.itp -lt ~/FDA/Topology/POPC_charmm36.itp -lm ~/FDA/Topology/POPC.C36.map.json -v -saveall "Yes" -savestep 10', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
 ### required parameters
 parser.add_argument('-f', '--gro', help='input gro file', required=True)
 parser.add_argument('-x', '--xtc', help='input xtc files', required=True)
@@ -62,21 +62,6 @@ save_all_data = args.saveall
 save_step = args.savestep
 nonProtein_type = args.non_prot
 P = args.phosphate
-
-'''
-gro = "./trj.gro"  ## must have protein+lipids
-protein_itp = "./TREK2_charmm.itp"
-lipid_itp ="./POPC_charmm36.itp"
-ff = "./ff_charmm.itp"
-xtc = "./trj.xtc"
-nonProtein_type = ['POPC', 'POPG', 'POPE', 'POPS', 'CHOL'] ## need to be in order that match .gro file
-r_cutoff = 6 ## A
-BB = "CA"
-e_r = 1
-save_all_data = 'Yes'
-save_step = 1
-P = 'P'
-'''
 
 ###############################################################
 #                                                             # 
@@ -154,30 +139,14 @@ itpLip['part'] = POPC_type
 #natom_build = len(itpProtein)
 ntype_build = len(ff)
 ## dictionary for Charmm36  
-ff_charmm36 = {"C" :  0 ,"CA" :  1 ,"CC" :  2 ,"CD" :  3 ,"CE1" :  4 ,"CE2" :  5 ,"CM" :  6 ,"CP1" :  7 ,"CP2" :  8 ,"CP3" :  9 ,
-		"CPA" :  10 ,"CPB" :  11 ,"CPH1" :  12 ,"CPH2" :  13 ,"CPM" :  14 ,"CPT" :  15 ,"CS" :  16 ,"CST" :  17 ,
-		"CT1" :  18 ,"CT2" :  19 ,"CT3" :  20 ,"CY" :  21 ,"CT" :  22 ,"CT1x" :  23 ,"CT2x" :  24 ,"CT3x" :  25 ,
-		"H" :  26 ,"HA" :  27 ,"HE1" :  28 ,"HE2" :  29 ,"HB" :  30 ,"HC" :  31 ,"HP" :  32 ,"HR1" :  33 ,
-		"HR2" :  34 ,"HR3" :  35 ,"HS" :  36 ,"HT" :  37 ,"HA1" :  38 ,"HA2" :  39 ,"HA3" :  40 ,"N" :  41 ,
-		"NC2" :  42 ,"NH1" :  43 ,"NH2" :  44 ,"NH3" :  45 ,"NP" :  46 ,"NPH" :  47 ,"NR1" :  48 ,"NR2" :  49 ,
-		"NR3" :  50 ,"NY" :  51 ,"O" :  52 ,"OB" :  53 ,"OC" :  54 ,"OH1" :  55 ,"OM" :  56 ,"OS" :  57 ,
-		"OST" :  58 ,"OT" :  59 ,"S" :  60 ,"SM" :  61 ,"SS" :  62 ,"SOD" :  63 ,"POT" :  64 ,"CLA" :  65 ,
-		"CAL" :  66 ,"MG" :  67 ,"CES" :  68 ,"ZN" :  69 ,"FE" :  70 ,"HE" :  71 ,"NE" :  72 ,"CLAL" :  73 ,
-		"DUM" :  74 ,"CAP" :  75 ,"FA" :  76 ,"CN" :  77 ,"NC" :  78 ,"OCA" :  79 ,"COA" :  80 ,"CF1" :  81 ,
-		"CF2" :  82 ,"CF3" :  83 ,"HF1" :  84 ,"HF2" :  85 ,"F1" :  86 ,"F2" :  87 ,"F3" :  88 ,"C3" :  89 ,
-		"CC1A" :  90 ,"CC1B" :  91 ,"CC2" :  92 ,"NS1" :  93 ,"NS2" :  94 ,"HOL" :  95 ,"HAL1" :  96 ,
-		"HAL2" :  97 ,"HAL3" :  98 ,"HCL" :  99 ,"HL" :  100 ,"HEL1" :  101 ,"HEL2" :  102 ,"HBL" :  103 ,
-		"CCL" :  104 ,"CL" :  105 ,"CTL1" :  106 ,"CTL2" :  107 ,"CTL3" :  108 ,"CTL5" :  109 ,"CEL1" :  110 ,
-		"CEL2" :  111 ,"OBL" :  112 ,"OCL" :  113 ,"O2L" :  114 ,"OHL" :  115 ,"OSL" :  116 ,"OSLP" :  117 ,
-		"NH3L" :  118 ,"NTL" :  119 ,"SL" :  120 ,"PL" :  121 ,"OWT3" :  122 ,"HWT3" :  123 ,"OWT4" :  124 ,
-		"HWT4" :  125 ,"MWT4" :  126 ,"OWT5" :  127 ,"HWT5" :  128 ,"MWT5" :  129 ,"OW" :  130 ,"HW" :  131 }
+ff_charmm36 = {j['name']:i for i,j in ff.iterrows()}
 
 #### Check if all typr defined in dictionary
 #for i in range(0, natom_build) :
 #	print ff_charmm36[itpProtein.type[i]]
 
 #### Calculation combination rule (type2)
-ff_M = np.zeros([132,132,2]) # [i,j,0=c6, 1=c12] # There are 132 atom type in Charmm36 (exclude DNA)
+ff_M = np.zeros([len(ff_charmm36),len(ff_charmm36),2]) # [i,j,0=c6, 1=c12] # There are 132 atom type in Charmm36 (exclude DNA)
 for i in range(0, ntype_build):
 	for j in range(0, ntype_build):
 		epsilon = np.sqrt(ff.epsilon[i] * ff.epsilon[j])
@@ -347,7 +316,7 @@ for ts in u.trajectory[int(args.b):args.e] :
 
 ### save data into files (for each time step) ###
 	if save_all_data == 'Yes' :
-		if t_step%save_step == 0 :
+		if t_step%int(save_step) == 0 :
 			df.to_csv('./FDA_Pro_Lip/t_step/Pairs_resid' + str(ts.frame) + '.dat')
 
 ### keep time series data in list ###
@@ -394,6 +363,8 @@ PF_AminoCG_av.to_csv('./FDA_Pro_Lip/AminoAcid_CG_av' + '.csv')
 PF_AminoMol_av.to_csv('./FDA_Pro_Lip/AminoAcid_Mol_av' + '.csv')
 PF_Polar_av.to_csv('./FDA_Pro_Lip/Polarity_Mol_av' + '.csv')
 
+if save_all_data == 'Yes' :
+	ATPF_t.to_csv('./FDA_Pro_Lip/Pairs_AT_t'+'.csv')
 ################# Visualisation (VMD) ###################
 #### make PDB file for average [Sum|Force|] ########## 
 for i in range(N_mol['Protein']) :
