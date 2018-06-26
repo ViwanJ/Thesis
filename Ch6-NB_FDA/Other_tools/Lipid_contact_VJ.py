@@ -63,8 +63,8 @@ for ts in u.trajectory[int(args.b):args.e] :
 	for k in Protein.residues.resids : ##change from index
 		a_lip = u.select_atoms("not protein" + " and around " + str(r_cutoff) + " resid " + str(k))
 		foo = [name[0] for name in a_lip.names if name not in ['C1', 'C2', 'C3', 'C11','C12', 'C13', 'C14', 'C15']] ## do not count fist C of each chains and C1*
-		num_C_around[k-1] = foo.count('C')
-		num_P_around[k-1] = foo.count('P')
+		num_C_around[k-1] = int(foo.count('C') ) 
+		num_P_around[k-1] = int(foo.count('P') ) + int( foo.count('N') )
 	check2 = timeit.default_timer()
 	if args.verbose :
 		print "time to loop all residues " + str(check2 - check4 )
