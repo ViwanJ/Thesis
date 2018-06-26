@@ -1,5 +1,4 @@
-NB-FDA--Protein-Lpid interaction use as : ipython -i ./NB-FDA_Pro_Lip_v05.py -- -f Pro_lip.gro -x Pro_lip.xtc -ff
-../Topology/ff_charmm36m.itp -pt ../Topology/TREK1WT_charmm36m.itp -lt
+NB-FDA--Protein-Lpid interaction use as : ipython -i ./NB-FDA_Pro_Lip_v05.py -- -f Pro_lip.gro -x Pro_lip.xtc -ff ../Topology/ff_charmm36m.itp -pt ../Topology/TREK1WT_charmm36m.itp -lt
 ../Topology/POPC_charmm36.itp -lm ../Topology/POPC.C36.map.json -v
 
 optional arguments:
