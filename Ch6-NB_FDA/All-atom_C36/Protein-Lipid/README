@@ -1,0 +1,35 @@
+NB-FDA--Protein-Lpid interaction use as : ipython -i ./NB-FDA_Pro_Lip_v05.py -- -f Pro_lip.gro -x Pro_lip.xtc -ff ../Topology/ff_charmm36m.itp -pt ../Topology/TREK1WT_charmm36m.itp -lt
+../Topology/POPC_charmm36.itp -lm ../Topology/POPC.C36.map.json -v
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -f GRO, --gro GRO     input gro file (default: None)
+  -x XTC, --xtc XTC     input xtc files (default: None)
+  -ff FORCEFIELD, --forcefield FORCEFIELD
+                        input forcefile file (default: None)
+  -pt PORTEIN_TOPOL, --portein_topol PORTEIN_TOPOL
+                        input protein topology file (default: None)
+  -lt LIPID_TOPOL, --lipid_topol LIPID_TOPOL
+                        input lipid topology file (default: None)
+  -lm LIPID_MAP, --lipid_map LIPID_MAP
+                        input lipid mapping file (default: None)
+  -r R_CUTOFF, --r_cutoff R_CUTOFF
+                        distance cutoff in Angstrom (default: 6)
+  -BB [{CA,BB}], --backbone [{CA,BB}]
+                        Backbone atom name CA for Charmm36, BB for CG-martini
+                        (default: CA)
+  -phosphate [{P,PO4}]  phosphate group atom name (default: P)
+  -e_r [E_R]            dielectric part in Coulomb potentail all-atom=1, CG-
+                        martini=15 (default: 1)
+  -b [B]                First frame to read from trajectory (default: 0)
+  -e [E]                Last frame to read from trajectory (default: -1)
+  -pbc [{Yes,No}]       fix PBC problem, this will slow down calulation time
+                        (default: Yes)
+  -saveall [{Yes,No}]   save all data in atom-level, this will require a lot
+                        of space (default: No)
+  -savestep SAVESTEP    frequency for saving data, 1 is every frame (default:
+                        1)
+  -non_prot NON_PROT    list of non protein in the gro file, excluding water.
+                        List need to be in the same order as in gro file
+                        (default: ['POPC', 'POPG', 'POPE', 'POPS', 'CHOL'])
+  -v, --verbose         increase output verbosity (default: False)
